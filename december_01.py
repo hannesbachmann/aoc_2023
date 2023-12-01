@@ -10,11 +10,13 @@ import re
 def extract_digits(input: str) -> int:
     # extract digits from input string
     numbers = re.findall('[0-9]', input)
-    # get first and last number if exist
+    # get first and last number if exist and concat them together
     return int(numbers[0] + numbers[-1]) if len(numbers) else 0
 
 
 if __name__ == '__main__':
     some_input_string = 'ab822c4de5f'
+    print(extract_digits(some_input_string))
 
-    print((lambda in_str: (x := re.findall('\d', in_str), int(x[0] + x[-1]) if len(x) else 0)[-1])(some_input_string))
+    # lambda abomination
+    print((lambda in_str: (digits := re.findall('\d', in_str), int(digits[0] + digits[-1]) if len(digits) else 0)[-1])(some_input_string))
