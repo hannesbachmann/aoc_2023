@@ -49,6 +49,38 @@ def game_is_possible(input_line: str, possible_game: dict[str, int]) -> int:
     return current_game_id
 
 
+def calc_sum_of_possible_games(input_lines: list[str], possible_game: dict[str, int]) -> int:
+    cumulative_sum_of_possible_game_ids = 0
+    for line in input_lines:
+        game_status = game_is_possible(line, possible_game)
+        cumulative_sum_of_possible_game_ids += game_status
+    return cumulative_sum_of_possible_game_ids
+
+
+def fewest_possible_per_color_per_game(input_line: str) -> dict[str, int]:
+    fewest_count = {'red': 0, 'green': 0, 'blue': 0}
+    current_game_id = get_game_id(input_line)
+    frames = separate_frames(input_line, current_game_id)
+    for frame in frames:
+        c_per_frame = count_colors_per_frame(frame)
+        for color in c_per_frame.keys():
+            if c_per_frame[color] >= fewest_count[color]:
+                fewest_count[color] = c_per_frame[color]
+    print(current_game_id, fewest_count)
+    return fewest_count
+
+
+def calculate_fewest_set_power_sum(input_lines: list[str]) -> int:
+    cumulative_sum_set_power = 0
+    for line in input_lines:
+        few = fewest_possible_per_color_per_game(line)
+        set_power = 1
+        for color in few.keys():
+            set_power *= few[color]
+        cumulative_sum_set_power += set_power
+    return cumulative_sum_set_power
+
+
 def load_codes():
     with open('aoc_dec_2.txt') as f:
         lines = f.readlines()
@@ -57,12 +89,10 @@ def load_codes():
 
 if __name__ == '__main__':
     possible_game_colors = {'red': 12, 'green': 13, 'blue': 14}
-
     input_lines = load_codes()
-    cumulative_sum_of_possible_game_ids = 0
-    for line in input_lines:
-        game_status = game_is_possible(line, possible_game_colors)
-        cumulative_sum_of_possible_game_ids += game_status
-    print(cumulative_sum_of_possible_game_ids)
+
+    print(calculate_fewest_set_power_sum(input_lines))
+
+    print(calc_sum_of_possible_games(input_lines, possible_game_colors))
 
     pass
