@@ -22,7 +22,7 @@ def extract_digits(input: str) -> int:
     return int(numbers[0] + numbers[-1]) if len(numbers) else 0
 
 
-def load_codes():
+def load_codes() -> list[str]:
     with open('aoc_dec_1.txt') as f:
         lines = f.readlines()
     return lines
