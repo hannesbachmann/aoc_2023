@@ -8,6 +8,9 @@ import re
 
 
 def extract_digits(input: str) -> int:
+    # l = (lambda inp: (positive_replace := {'one': 1, 'two': 2, 'three': 3, 'four': 4, 'five': 5, 'six': 6, 'seven': 7, 'eight': 8, 'nine': 9},
+    #                   numbers := re.findall(r'\d', ))[-1])(input)
+
     # extract digits from input string
     positive_replace = {'one': 1, 'two': 2, 'three': 3, 'four': 4, 'five': 5, 'six': 6, 'seven': 7, 'eight': 8, 'nine': 9}
     for k in positive_replace.keys():
@@ -32,7 +35,9 @@ if __name__ == '__main__':
     input_lines = load_codes()
     some_input_string = ['two1nine', 'eightwothree', 'abcone2threexyz', 'xtwone3four', '4nineeightseven2', 'zoneight234', '7pqrstsixteen']
 
+    # print(sum([ for input_line in input_lines]))
+
     print(sum([extract_digits(input_line) for input_line in input_lines]))
 
     # lambda abomination
-    # print(sum([(lambda in_str: (digits := re.findall('\d', in_str), int(digits[0] + digits[-1]) if len(digits) else 0)[-1])(s) for s in input_lines]))
+    print(sum([(lambda in_str: (digits := re.findall('\d', in_str), int(digits[0] + digits[-1]) if len(digits) else 0)[-1])(s) for s in input_lines]))

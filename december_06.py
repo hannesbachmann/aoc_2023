@@ -1,4 +1,5 @@
 import re
+import string
 
 
 def load_codes() -> list[str]:
@@ -68,6 +69,7 @@ if __name__ == '__main__':
     input_lines = load_codes()
     no = number_of_options(input_lines=input_lines)
     print(no)
+    ds = string.digits
 
     print(calc_check_value(input_lines=input_lines))
     pass

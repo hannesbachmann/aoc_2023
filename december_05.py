@@ -119,7 +119,6 @@ def pairs(l):
     return zip(it, it)
 
 
-
 if __name__ == '__main__':
     input_lines = load_codes()
 
