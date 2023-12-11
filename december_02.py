@@ -82,7 +82,7 @@ def calculate_fewest_set_power_sum(input_lines: list[str]) -> int:
 
 
 def load_codes() -> list[str]:
-    with open('aoc_dec_2.txt') as f:
+    with open('aoc_dec_02.txt') as f:
         lines = f.readlines()
     return lines
 

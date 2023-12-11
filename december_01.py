@@ -9,7 +9,7 @@ import re
 
 def extract_digits(input: str) -> int:
     # l = (lambda inp: (positive_replace := {'one': 1, 'two': 2, 'three': 3, 'four': 4, 'five': 5, 'six': 6, 'seven': 7, 'eight': 8, 'nine': 9},
-    #                   numbers := re.findall(r'\d', ))[-1])(input)
+    #                numbers := re.findall(r'\d', ))[-1])(input)
 
     # extract digits from input string
     positive_replace = {'one': 1, 'two': 2, 'three': 3, 'four': 4, 'five': 5, 'six': 6, 'seven': 7, 'eight': 8, 'nine': 9}
@@ -20,13 +20,13 @@ def extract_digits(input: str) -> int:
         for digit_idx in a:
             input = input[:digit_idx+1] + str(positive_replace[k]) + input[1+digit_idx:]
 
-    numbers = re.findall('[0-9]', input)
+    numbers = re.findall(r'\d+', input)
     # get first and last number if exist and concat them together
     return int(numbers[0] + numbers[-1]) if len(numbers) else 0
 
 
 def load_codes() -> list[str]:
-    with open('aoc_dec_1.txt') as f:
+    with open('aoc_dec_01.txt') as f:
         lines = f.readlines()
     return lines
 

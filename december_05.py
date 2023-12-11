@@ -2,7 +2,7 @@ import re
 
 
 def load_codes() -> list[str]:
-    with open('aoc_dec_5.txt') as f:
+    with open('aoc_dec_05.txt') as f:
         lines = f.readlines()
     lines = [l.replace('\n', '') for l in lines]
     return lines
@@ -82,7 +82,7 @@ def calc_min_location_seed_ranges(input_lines: list[str]) -> int:
     locations = []
     seeds = get_seed_ranges(seeds_list=seeds)
 
-    with open('aoc_dec_5.txt') as f:
+    with open('aoc_dec_05.txt') as f:
         _, *mappings = f.read().split("\n\n").copy()
     for m in mappings[1:]:
         if m == '':

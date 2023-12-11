@@ -5,7 +5,7 @@ import re
 
 
 def load_codes() -> list[str]:
-    with open('aoc_dec_3.txt') as f:
+    with open('aoc_dec_03.txt') as f:
         lines = f.readlines()
     lines = [l.replace('\n', '') for l in lines]
     return lines
