@@ -8,6 +8,7 @@ def load_codes() -> list[str]:
     lines = [l.replace('\n', '') for l in lines]
     return lines
 
+
 ##################################################
 ##################### PART 1 #####################
 ##################################################
@@ -67,9 +68,11 @@ def number_of_options(input_lines: list[str]) -> int:
 
 if __name__ == '__main__':
     input_lines = load_codes()
+    # -- part 1 --
     no = number_of_options(input_lines=input_lines)
     print(no)
     ds = string.digits
 
+    # -- part 2 --
     print(calc_check_value(input_lines=input_lines))
     pass

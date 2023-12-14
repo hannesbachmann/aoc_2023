@@ -49,6 +49,9 @@ def game_is_possible(input_line: str, possible_game: dict[str, int]) -> int:
     return current_game_id
 
 
+# #################################################
+# #################### PART 2 #####################
+# #################################################
 def calc_sum_of_possible_games(input_lines: list[str], possible_game: dict[str, int]) -> int:
     cumulative_sum_of_possible_game_ids = 0
     for line in input_lines:
@@ -70,6 +73,9 @@ def fewest_possible_per_color_per_game(input_line: str) -> dict[str, int]:
     return fewest_count
 
 
+# #################################################
+# #################### PART 1 #####################
+# #################################################
 def calculate_fewest_set_power_sum(input_lines: list[str]) -> int:
     cumulative_sum_set_power = 0
     for line in input_lines:
@@ -90,9 +96,9 @@ def load_codes() -> list[str]:
 if __name__ == '__main__':
     possible_game_colors = {'red': 12, 'green': 13, 'blue': 14}
     input_lines = load_codes()
-
+    # -- part 1 --
     print(calculate_fewest_set_power_sum(input_lines))
-
+    # -- part 2 --
     print(calc_sum_of_possible_games(input_lines, possible_game_colors))
 
     pass

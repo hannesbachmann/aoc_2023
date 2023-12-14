@@ -62,7 +62,8 @@ def calc_number_of_cards(input_lines: list[str]) -> int:
 
 if __name__ == '__main__':
     input_lines = load_codes()
+    # -- part 1 --
     print(calc_number_of_cards(input_lines=input_lines))
-
-    print(calc_total_score(input_lines))
+    # -- part 2 --
+    print(calc_total_score(input_lines=input_lines))
     pass

@@ -12,7 +12,7 @@ def load_codes() -> list[str]:
 # #################################################
 # #################### PART 1 #####################
 # #################################################
-def go_north(input_lines):
+def go_north(input_lines: list[list[str]]) -> list[list[str]]:
     input_lines = [[c for c in line] for line in input_lines]
     for line in input_lines:
         for n in range(len(line)):
@@ -28,15 +28,15 @@ def go_north(input_lines):
 # #################################################
 # #################### PART 2 #####################
 # #################################################
-def one_cycle(input_lines):
+def one_cycle(input_lines: list[list[str]]) -> list[list[str]]:
     # north, then west, then south, then east per cycle
     repeatings = [np.array(input_lines)]
     cycle_found = 0
     for i in range(1000000000):
         input_lines = list(zip(*go_north(list(zip(*input_lines)))))   # go north
         input_lines = list(zip(*go_north(input_lines)))  # go west
-        input_lines = go_north([reversed(line) for line in input_lines])   # south
-        input_lines = go_north([reversed(line) for line in list(zip(*input_lines))])    # go east
+        input_lines = go_north([list(reversed(line)) for line in input_lines])   # south
+        input_lines = go_north([list(reversed(line)) for line in list(zip(*input_lines))])    # go east
 
         input_lines = [list(reversed(line)) for line in list(reversed(input_lines))]
 

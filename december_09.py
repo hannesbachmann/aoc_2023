@@ -37,7 +37,6 @@ def calc_next_value(input_lines: list[str]) -> int:
         while i >= 0:
             levels[i].append(levels[i+1][-1] + levels[i][-1])
             i -= 1
-            print(levels[i])
         values_collection.append(levels[0][-1])
 
     return sum(values_collection)
@@ -56,7 +55,6 @@ def calc_previous_value(input_lines: list[str]) -> int:
         while i >= 0:
             levels[i].insert(0, levels[i][0] - levels[i+1][0])
             i -= 1
-            print(levels[i])
         values_collection.append(levels[0][0])
 
     return sum(values_collection)
