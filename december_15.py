@@ -1,5 +1,6 @@
 import re
 import numpy as np
+import itertools
 
 
 def load_codes() -> list[str]:
@@ -14,22 +15,15 @@ def init_sequence(input_lines):
 
 
 def calc_sequence_sum_p1(init_sequence) -> int:
-    part_sum = 0
-    for s in init_sequence:
-        seq_sum = 0
-        for c in s:
-            seq_sum += ord(c)
-            seq_sum *= 17
-            seq_sum = seq_sum % 256
-        part_sum += seq_sum
-        print(s, seq_sum)
-    return part_sum
+    return sum([list(itertools.accumulate('.' + s, lambda previous, current: ((previous + ord(
+        current)) * 17) % 256 if isinstance(
+        previous, int) else ((0 + ord(current)) * 17) % 256))[-1] for s in init_sequence])
 
 
 if __name__ == '__main__':
-    some_input_lines = load_codes()
-    init_seq = init_sequence(input_lines=some_input_lines)
+    # some_input_lines = load_codes()
+    # init_seq = init_sequence(input_lines=some_input_lines)
     # -- part 1 --
-    print(f'part 1: {calc_sequence_sum_p1(init_seq)}')
+    print(f"part 1: {sum([list(itertools.accumulate('.' + s, lambda p, c: ((p + ord(c)) * 17) % 256 if isinstance(p, int) else ((0 + ord(c)) * 17) % 256))[-1] for s in load_codes()[0].split(',')])}")
     # 508498
     pass
