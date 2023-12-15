@@ -10,10 +10,9 @@ def load_codes() -> list[str]:
     return lines
 
 
-def init_sequence(input_lines):
-    return input_lines[0].split(',')
-
-
+# #################################################
+# #################### PART 1 #####################
+# #################################################
 def calc_sequence_sum_p1(init_s) -> int:
     return sum([list(itertools.accumulate('.' + s, lambda previous, current: ((previous + ord(
         current)) * 17) % 256 if isinstance(
@@ -26,6 +25,9 @@ def calc_hash(s):
         previous, int) else ((0 + ord(current)) * 17) % 256))[-1]
 
 
+# #################################################
+# #################### PART 2 #####################
+# #################################################
 def calc_focusing_powers(init_s) -> int:
     boxes = [[] for i in range(256)]
     for seq in init_s:
@@ -57,5 +59,5 @@ if __name__ == '__main__':
     # -- part 1 --
     print(f"part 1: {sum([list(itertools.accumulate('.' + s, lambda p, c: ((p + ord(c)) * 17) % 256 if isinstance(p, int) else ((0 + ord(c)) * 17) % 256))[-1] for s in load_codes()[0].split(',')])}")
     # -- part 2 --
-    print(f"part 2: {calc_focusing_powers(init_sequence(input_lines=load_codes()))}")
+    print(f"part 2: {calc_focusing_powers(load_codes()[0].split(','))}")
     pass
