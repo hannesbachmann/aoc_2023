@@ -1,4 +1,5 @@
 import re
+from collections import deque
 
 
 def load_codes() -> list[str]:
@@ -12,7 +13,7 @@ def parse_input(input_lines: list[str]) -> tuple[list[list[str]], dict[str, dict
     broadcasters = []
     modules = {}
     for line in input_lines:
-        destinations = re.findall(r'-> .+', line)[0].replace('-> ', '').split(',')
+        destinations = re.findall(r'-> .+', line)[0].replace('-> ', '').replace(' ', '').split(',')
         if line.startswith('b'):
             broadcasters.append(destinations)
         elif line.startswith('%'):
@@ -122,9 +123,25 @@ class Circuit:
         curr_value = self.circuit_modules['but'].evaluate()
         print('bat' + '-' + str(curr_value) + '->' + 'bc0')
         curr_value = self.circuit_modules['bc0'].evaluate(curr_value)
+        q = deque()
         for module in self.circuit_modules['bc0'].destinations:
-
-            self.eva(curr_value, self.circuit_modules[module], 'bc0')
+            # value, source_id, target
+            print('bc0' + ' -' + str(curr_value) + '-> ' + module)
+            q.append([curr_value, 'bc0', module])
+        while len(q) > 0:
+            q_len = len(q)
+            q_buff = [q.popleft() for i in range(q_len)]
+            for b in q_buff:
+                # 0: value
+                # 1: source_id
+                # 2: target_id
+                value = self.circuit_modules[b[2]].evaluate(b[0], b[1])
+                for destination in self.circuit_modules[b[2]].destinations:
+                    q.append([value, b[2], destination])
+                    print(b[2] + ' -' + str(value) + '-> ' + destination)
+            print('-------')
+        pass
+        # self.eva(curr_value, self.circuit_modules[module], 'bc0')
 
     def eva(self, signal, module, source_id):
         print(source_id + '-' + str(signal) + '->' + module.name)
