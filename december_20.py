@@ -1,9 +1,11 @@
+from __future__ import annotations
+
 import re
 from collections import deque
 
 
 def load_codes() -> list[str]:
-    with open('test_02.txt') as f:
+    with open('aoc_dec_20.txt') as f:
         lines = f.readlines()
     lines = [line.replace('\n', '') for line in lines]
     return lines
@@ -31,7 +33,7 @@ class Conjunction:
     def __init__(self, name, destinations):
         self.name = name
         self.destinations = destinations
-        self.old_inputs = {}    # parent_id, value
+        self.old_inputs = {}  # parent_id, value
 
     def add_parent(self, parent_id):
         self.old_inputs[parent_id] = 0
@@ -54,7 +56,7 @@ class FlipFlop:
         self.destinations = destinations
         self.state = 'OFF'
 
-    def evaluate(self, signal, parent_id=None):
+    def evaluate(self, signal, parent_id=None) -> int | None:
         """
         case send high: send low, state stays the same
         case state is OFF: low->high, state->ON
@@ -62,7 +64,7 @@ class FlipFlop:
         """
         # receive high: send low, state stays the same
         if signal:
-            return 0
+            return None
         # ON: low->low, state->OFF
         if self.state == 'ON':
             self.state = 'OFF'
@@ -94,7 +96,10 @@ class Circuit:
     def __init__(self, broadcasts, modules):
         self.circuit_modules = {}
         self.build_circuit(broadcasts, modules)
-        self.press_button()
+        self.__result = self.press_button()
+
+    def get_result(self):
+        return self.__result
 
     def build_circuit(self, broadcasts, modules):
         self.circuit_modules['but'] = Button('but')
@@ -120,33 +125,37 @@ class Circuit:
             return FlipFlop(name, destinations)
 
     def press_button(self):
-        curr_value = self.circuit_modules['but'].evaluate()
-        print('bat' + '-' + str(curr_value) + '->' + 'bc0')
-        curr_value = self.circuit_modules['bc0'].evaluate(curr_value)
-        q = deque()
-        for module in self.circuit_modules['bc0'].destinations:
-            # value, source_id, target
-            print('bc0' + ' -' + str(curr_value) + '-> ' + module)
-            q.append([curr_value, 'bc0', module])
-        while len(q) > 0:
-            q_len = len(q)
-            q_buff = [q.popleft() for i in range(q_len)]
-            for b in q_buff:
-                # 0: value
-                # 1: source_id
-                # 2: target_id
-                value = self.circuit_modules[b[2]].evaluate(b[0], b[1])
-                for destination in self.circuit_modules[b[2]].destinations:
-                    q.append([value, b[2], destination])
-                    print(b[2] + ' -' + str(value) + '-> ' + destination)
-            print('-------')
-        pass
-        # self.eva(curr_value, self.circuit_modules[module], 'bc0')
-
-    def eva(self, signal, module, source_id):
-        print(source_id + '-' + str(signal) + '->' + module.name)
-        for child in module.destinations:
-            self.eva(module.evaluate(signal, source_id), self.circuit_modules[child], module.name)
+        values = []
+        num_press_button = 1000
+        for i in range(num_press_button):
+            # press the button again
+            curr_value = self.circuit_modules['but'].evaluate()
+            values.append(curr_value)
+            print('but' + '-' + str(curr_value) + '->' + 'bc0')
+            curr_value = self.circuit_modules['bc0'].evaluate(curr_value)
+            q = deque()
+            for module in self.circuit_modules['bc0'].destinations:
+                # value, source_id, target
+                print('bc0' + ' -' + str(curr_value) + '-> ' + module)
+                values.append(curr_value)
+                q.append([curr_value, 'bc0', module])
+            while len(q) > 0:
+                q_len = len(q)
+                q_buff = [q.popleft() for i in range(q_len)]
+                for b in q_buff:
+                    # 0: value
+                    # 1: source_id
+                    # 2: target_id
+                    # b[2] must be an output module when target not in keys
+                    if b[2] in self.circuit_modules:
+                        value = self.circuit_modules[b[2]].evaluate(b[0], b[1])
+                        if value is not None:
+                            # value is None in case of a flipflop receives a high input
+                            for destination in self.circuit_modules[b[2]].destinations:
+                                q.append([value, b[2], destination])
+                                print(b[2] + ' -' + str(value) + '-> ' + destination)
+                                values.append(value)
+        return values.count(0) * values.count(1)
 
 
 if __name__ == '__main__':
@@ -154,7 +163,7 @@ if __name__ == '__main__':
     bc, m = parse_input(some_input_lines)
     C = Circuit(bc, m)
     # -- part 1 --
-    print(f"part 1: {0}")
+    print(f"part 1: {C.get_result()}")
     # -- part 2 --
     print(f"part 2 {0}")
     pass
